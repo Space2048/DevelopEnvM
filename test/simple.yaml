@@ -1,0 +1,17 @@
+#------------------------This is data file---------------------------------
+python_version_url: 'https://www.python.org/ftp/python/'
+python_download_url: 'https://www.baidu.com'
+
+go_version_url: 'http://www.go.com'
+
+
+python_version_list:
+  - python2.7
+  - python3.8
+
+languages:
+  - python
+  - go
+  - c++
+  - rust
+
