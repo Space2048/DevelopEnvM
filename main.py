@@ -2,7 +2,8 @@ import time
 import click
 import os
 from terminal_layout import *
-from env_develop.utils import checkRunning
+from terminal_layout.extensions.progress import *
+from env_develop.utils import checkRunning, softwareInit, BaseUtil
 from env_develop.languagetools import py_toolbox
 
 # 基本配置
@@ -11,12 +12,26 @@ from env_develop.languagetools import py_toolbox
 # https://www.python.org/ftp/python/
 # python list
 def test():
+    softwareInit()
+    BaseUtil.download_file("https://www.python.org/ftp/python/3.7.10/Python-3.7.10.tar.xz", "./Python-3.7.10.tar.xz")
+    # p = Progress('Downloading', 100)
+    # p.start()
+    # #p.set_progress(2)
+    # time.sleep(0.3)
+    # for i in range(100):
+    #     if p.is_finished():
+    #         break
+    #     time.sleep(0.3)
+    #     p.add_progress(1)
+    # p.stop()
     # pythont = py_toolbox()
+    # res = pythont.download("3.7.10")
+    # print(res)
     # list = pythont.getList()
     # for v in list:
     #     print(v)
     # pass
-    checkRunning()
+    # checkRunning()
     
 
 
