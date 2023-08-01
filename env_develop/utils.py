@@ -10,6 +10,7 @@ import requests
 import sys
 import time
 from terminal_layout.extensions.progress import *
+from env_develop import constants
 
 def Singleton(cls):
     _instance = {}
@@ -71,10 +72,9 @@ class GlbLib:
         return self.MapLib[key] == value
 
 #文件操作类
-class FileOp:
-    def __init__(self):
-        pass
-
+# class FileOp:
+#     def __init__(self):
+#         pass
 
 class BaseUtil(object):
     def __init__(self):
@@ -151,6 +151,10 @@ def checkRunning():
     Config.saveConfig()
     return now_pid
 
+#初始化logger
+def initLogger():
+    pass
+
 #软件初始化，创建基本环境
 def softwareInit():
     config = Config()
@@ -176,9 +180,79 @@ def softwareInit():
     
 #目录结构
 # -baseDir
-# ---bin
-# -----data.yaml
-# ---version
-# -----go
-# -----python
+# ---data.yaml
+# ---python
+# -----version
+# -------python3.7.10.xyz
+# -----python.yaml
+# ---go
+# -----version
+# -------go0.1.3.zip
+# -----go.yaml
 # ---log
+# -----log.230801
+
+#语言配置
+class LangConfig(metaclass=SingletonMeta):
+    def __init__(self) -> None:
+        pass
+
+    # def _loadAllConfig():
+    #     fileop = FileOp()
+    #     main_config = constants.BASE_CONFGI_DIR
+    #     fileop.yamlFileParse(main_config)
+    #     pass
+
+class DataSheet(metaclass = SingletonMeta):
+    dataLib = {}
+    def __init__(self) -> None:
+        pass
+
+    @staticmethod
+    def _loadAllData():
+        mainDataFile = constants.BASE_DIR + constants.MAIN_DATA_FILE
+        mainData = FileOp.yamlFileParse(mainDataFile)
+        DataSheet.dataLib["main"] = mainData
+        langList = mainData["languages"]
+        for lang in langList:
+            
+        pass
+
+    def getData(self,key, typ = "main"):
+        if typ not in DataSheet.dataLib.keys():
+            return None
+        data = DataSheet.dataLib[typ]
+        if key not in data.keys():
+            return None
+        return data[key]
+    
+    def setData(self, key, value, typ = "main"):
+        if typ not in DataSheet.dataLib.keys():
+            return False
+        DataSheet.dataLib[typ][key] = value
+        return True
+    
+        
+
+#文件操作
+class FileOp(object):
+
+    def __init__(self):
+        pass
+    
+    @staticmethod
+    def yamlFileParse(filedir):
+        file = open(filedir, 'r', encoding="utf-8")
+        file_data = file.read()
+        file.close()
+        data = yaml.load(file_data, Loader=yaml.FullLoader)
+        return data
+    
+    @staticmethod
+    def yamlFileSave(filedir, data):
+        file = open(filedir, 'w', encoding='utf-8')
+        yaml.dump(data, file)
+        file.close()
+
+#项目结构
+#

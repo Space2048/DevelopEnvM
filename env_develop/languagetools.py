@@ -2,6 +2,12 @@ from env_develop.utils import Config, BaseUtil
 import requests
 from bs4 import BeautifulSoup
 
+def createToolBox(typ):
+    toolType = {"python":py_toolbox,"go":go_toolbox}
+    if typ not in toolType.keys():
+        return None
+    return toolType[typ]()
+
 class py_toolbox(object):
     
     def __init__(self):
@@ -65,3 +71,8 @@ class py_toolbox(object):
     @staticmethod
     def _request_download(url, dir) -> str:
         BaseUtil.download_file(url, dir)
+
+class go_toolbox(object):
+    def __init__(self) -> None:
+        pass
+

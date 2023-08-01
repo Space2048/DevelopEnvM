@@ -3,8 +3,25 @@ import click
 import os
 from terminal_layout import *
 from terminal_layout.extensions.progress import *
-from env_develop.utils import checkRunning, softwareInit, BaseUtil
-from env_develop.languagetools import py_toolbox
+from env_develop.utils import checkRunning, softwareInit, BaseUtil, SingletonMeta
+from env_develop.languagetools import createToolBox
+
+
+class DevelopEnvManager(metaclass = SingletonMeta):
+    def __init__(self):
+        self.langTools = {}
+        pass
+    def init(self):
+        pass
+    def version(self, typ):
+        pass
+    def install(self, typ):
+        pass
+    def changeVersion(self, typ):
+        pass
+
+def get_DevEnvManager():
+    return DevelopEnvManager()
 
 # 基本配置
 # https://www.python.org/
@@ -55,4 +72,5 @@ def list(typ, option):
 
 
 if __name__ == '__main__':
+
     cli()
