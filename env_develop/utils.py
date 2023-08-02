@@ -11,6 +11,7 @@ import sys
 import time
 from terminal_layout.extensions.progress import *
 from env_develop import constants
+from nb_log import get_logger
 
 def Singleton(cls):
     _instance = {}
@@ -29,7 +30,6 @@ class SingletonMeta(type):
             instance = super().__call__(*args, **kwds)
             self._instances[self] = instance
         return self._instances[self]
-
 
 #配置类
 class Config(metaclass=SingletonMeta):
@@ -124,6 +124,11 @@ class BaseUtil(object):
         p.stop()
         print()  # 避免上面\r 回车符
 
+    @staticmethod
+    def isExist(dir):
+        return os.path.exists(dir)
+    
+
 
 #解析yaml文件
 def parseConfig(yaml_file):
@@ -173,6 +178,14 @@ def softwareInit():
         if not _isexist:
             os.mkdir(langDir)
 
+class DEMLog(metaclass = SingletonMeta):
+    def __init__(self):
+        date = time.strftime("%Y:%m:%d", time.localtime())
+        logDir = constants.BASE_DIR + "/logs"
+        logFile = "DEM" + date + ".log"
+        if not BaseUtil.isExist(logDir + logFile):
+            self.logger = get_logger("DEM", log_path = logDir, log_filename = logFile)
+        return self.logger
  
 #操作文件类
 #@Singleton
@@ -215,7 +228,9 @@ class DataSheet(metaclass = SingletonMeta):
         DataSheet.dataLib["main"] = mainData
         langList = mainData["languages"]
         for lang in langList:
-            
+            langDataFile = constants.BASE_DIR + "/" + lang + ".yaml"
+            langData = FileOp.yamlFileParse(langDataFile)
+            DataSheet.dataLib[lang] = langData
         pass
 
     def getData(self,key, typ = "main"):
@@ -232,8 +247,6 @@ class DataSheet(metaclass = SingletonMeta):
         DataSheet.dataLib[typ][key] = value
         return True
     
-        
-
 #文件操作
 class FileOp(object):
 

@@ -3,7 +3,7 @@ import click
 import os
 from terminal_layout import *
 from terminal_layout.extensions.progress import *
-from env_develop.utils import checkRunning, softwareInit, BaseUtil, SingletonMeta
+from env_develop.utils import checkRunning, softwareInit, BaseUtil, SingletonMeta, DEMLog
 from env_develop.languagetools import createToolBox
 
 
@@ -29,8 +29,11 @@ def get_DevEnvManager():
 # https://www.python.org/ftp/python/
 # python list
 def test():
-    softwareInit()
-    BaseUtil.download_file("https://www.python.org/ftp/python/3.7.10/Python-3.7.10.tar.xz", "./Python-3.7.10.tar.xz")
+    logger = DEMLog()
+    logger.info("test")
+    logger.warning("adx", "dasd")
+    # softwareInit()
+    #BaseUtil.download_file("https://www.python.org/ftp/python/3.7.10/Python-3.7.10.tar.xz", "./Python-3.7.10.tar.xz")
     # p = Progress('Downloading', 100)
     # p.start()
     # #p.set_progress(2)
